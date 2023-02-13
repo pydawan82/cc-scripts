@@ -9,12 +9,12 @@ local default_style = {
 
 }
 
-local function get_max_energy(battery)
-    return 100
+local function get_energy(battery)
+    return battery.getEnergyStored(), battery.getMaxEnergyStored()
 end
 
-local function get_energy(battery)
-    return 50
+local function get_mana(mana)
+    return mana.getCurrentMana(), mana.getMaxMana()
 end
 
 local function display_loading(ratio, text, style)
@@ -48,8 +48,7 @@ local function main(m_side, b_side)
     term.redirect(monitor)
 
     while true do
-        local max_energy = get_max_energy(battery)
-        local energy = get_energy(battery)
+        local energy, max_energy = get_energy(battery)
         local ratio = energy / max_energy
         local text = string.format("%d/%dRF", numbers.to_prefix(energy), numbers.to_prefix(max_energy))
 

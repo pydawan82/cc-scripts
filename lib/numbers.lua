@@ -2,32 +2,32 @@ local P = {}
 numbers = P
 
 local prefixes = {
-    {1e24, "Y"},
-    {1e21, "Z"},
-    {1e18, "E"},
-    {1e15, "P"},
-    {1e12, "T"},
-    {1e9, "G"},
-    {1e6, "M"},
-    {1e3, "k"},
-    {1, ""},
-    {1e-3, "m"},
-    {1e-6, "?"},
-    {1e-9, "n"},
-    {1e-12, "p"},
+    [-5] = 'f'
+    [-4] = 'p',
+    [-3] = 'n',
+    [-2] = 'u',
+    [-1] = 'm',
+    [0] = '',
+    [1] = 'k',
+    [2] = 'M',
+    [3] = 'G',
+    [4] = 'T',
+    [5] = 'P',
+    [6] = 'E',
+    [7] = 'Z',
+    [8] = 'Y',
+    min = -5,
+    max = 8
 }
 
+local function min(a, b) return a < b and a or b end
+local function max(a, b) return a > b and a or b end
+
 local function get_prefix(number)
-    local last
+    scale = math.floor(math.log(number)/math.log(1000))
+    scale = max(prefixes.min, min(prefixes.max, scale))
 
-    for i, prefix in ipairs(prefixes) do
-        last = i
-        if number >= prefix[1] then
-            return unpack(prefix)
-        end
-    end
 
-    return unpack(prefixes[last])
 end
 
 function P.to_prefix(number)
