@@ -10,17 +10,15 @@ local color_scale = {
     colors.orange,
     colors.red,
 }
-color_scale.n = #color_scale
 
 function P.colormap(value, min, max)
-    max = max or min or 1
-    min = max and min or 0
+    min, max = max and min or 0, max or min or 1
 
     value = math.min(value, max)
     value = math.max(value, min)
 
-    local index = math.floor((value - min) / (max - min) * #color_scale)
-
+    local index = math.floor((value - min) / (max - min) * (#color_scale - 1))
+    
     return color_scale[index + 1]
 end
 
