@@ -27,12 +27,12 @@ local function get_prefix(number)
     scale = math.floor(math.log(number)/math.log(1000))
     scale = max(prefixes.min, min(prefixes.max, scale))
 
-
+    return math.pow(1000, scale), prefixes[scale]
 end
 
 function P.to_prefix(number)
     scale, prefix = get_prefix(number)
-    return string.format("%.2f%s", number / scale, prefix)
+    return number / scale, prefix
 end
 
 return P
