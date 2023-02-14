@@ -9,26 +9,27 @@ local function clear()
     term.setCursorPos(1, 1)
 end
 
-local function display(fuel, max_fuel, rod_level, temp)
-    term.setTextColor(cmap.colormap(fuel_level, 0, 10000))
-    printf('Fuel: %.1f/%.1fB', fuel_level, max_fuel)
+local function display(fuel_level, fuel_capcity, rod_level, temp)
+    term.setTextColor(cmap.colormap(fuel_level, fuel_capcity))
+    printf('Fuel: %.1f/%.1fB', fuel_level, fuel_capcity)
 
-    term.setTextColor(cmap.colormap(rod_level, 0, 100))
-    printf('Control Rod: %d%%', rod_level)
+    term.setTextColor(cmap.colormap(rod_level, 100))
+    printf('Control Rod: %3d%%', math.floor(rod_level))
 
-    term.setTextColor(cmap.colormap(temp, 0, 4000))
-    printf('Temperature: %dK', temp)
+    term.setTextColor(cmap.colormap(temp, 4000))
+    printf('Temperature: %4dK', math.floor(temp))
 end
 
 
 local function main()
     while true do
         local fuel_level = reactor.fuelTank().level() / 1000
+        local fuel_capacity = reactor.fuelTank().capacity() / 1000
         local rod_level = reactor.getControlRod(0).level()
         local temp = reactor.fuelTemperature()
 
         clear()
-        display(fuel_level, rod_level, temp)
+        display(fuel_level, fuel_capacity, rod_level, temp)
 
         sleep(1)
     end
