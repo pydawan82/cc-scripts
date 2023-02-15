@@ -2,7 +2,7 @@ local P = {}
 numbers = P
 
 local prefixes = {
-    [-5] = 'f'
+    [-5] = 'f',
     [-4] = 'p',
     [-3] = 'n',
     [-2] = 'u',
@@ -21,13 +21,14 @@ local prefixes = {
 }
 
 local function min(a, b) return a < b and a or b end
+
 local function max(a, b) return a > b and a or b end
 
 local function get_prefix(number)
-    scale = math.floor(math.log(number)/math.log(1000))
+    scale = math.floor(math.log(number) / math.log(1000))
     scale = max(prefixes.min, min(prefixes.max, scale))
 
-    return math.pow(1000, scale), prefixes[scale]
+    return 1000 ^ scale, prefixes[scale]
 end
 
 function P.to_prefix(number)
