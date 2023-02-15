@@ -1,9 +1,9 @@
 local P = {}
 pid = P
+local c_meta = {}
 
-local function pid.new(kp, ki, kd, dt)
-    return {
-        __index = pid,
+function pid.new(kp, ki, kd, dt)
+    controller = {
         kp = kp,
         ki = ki,
         kd = kd,
@@ -11,9 +11,11 @@ local function pid.new(kp, ki, kd, dt)
         integral = 0,
         last_error = 0
     }
+    setmetatable(controller, { __index = c_meta })
+    return controller
 end
 
-local function pid.update(pid, err)
+function c_meta.update(pid, err)
     local p = pid.kp * err
     local i = pid.ki * pid.integral
     local d = pid.kd * (err - pid.last_error) / pid.dt
