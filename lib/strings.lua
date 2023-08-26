@@ -15,3 +15,13 @@ function P.join(t, sep)
 
     return table.concat(buf)
 end
+
+function P.tobuffer(str)
+    local buffer = {}
+
+    for i = 1, #str do
+        buffer[i] = str:sub(i, i)
+    end
+
+    return buffer
+end

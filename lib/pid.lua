@@ -3,7 +3,7 @@ pid = P
 local c_meta = {}
 
 function pid.new(kp, ki, kd, dt)
-    controller = {
+    local controller = {
         kp = kp,
         ki = ki,
         kd = kd,

@@ -6,27 +6,14 @@ json = P
 local parse_object
 local parse_array
 
-local LBRACE = '{'
-local RBRACE = '}'
-local LBRACKET = '['
-local RBRACKET = ']'
-local COMMA = ','
-local COLON = ':'
--- "([^"\\]|(\\["\\bfnrt])|(\\u[0-9a-fA-F]{4}))*"
-local STRING = '"([^"\\\\]|(\\\\["\\\\bfnrt])|(\\\\u[0-9a-fA-F]{4}))*"'
-local NUMBER = '-?(0|[1-9][0-9]*)(\\.[0-9]+)?([eE][+-]?[0-9]+)?'
-local TRUE = 'true'
-local FALSE = 'false'
-local NULL = 'null'
-
 local function is_whitespace(char)
     return char == ' ' or char == '\t' or char == '\n' or char == '\r'
 end
 
 local function next_non_ws(file)
-    char = file:read(1)
+    char = file.read(1)
     while is_whitespace(char) do
-        char = file:read(1)
+        char = file.read(1)
     end
     return char
 end
@@ -35,10 +22,10 @@ local function parse_string(file, char)
     local string = {}
     local pos = 1
 
-    char = file:read(1)
+    char = file.read(1)
     while char ~= '"' do
         if char == '\\' then
-            char = file:read(1)
+            char = file.read(1)
             if char == 'b' then
                 char = '\b'
             elseif char == 'f' then
@@ -59,7 +46,7 @@ local function parse_string(file, char)
         end
         string[pos] = char
         pos = pos + 1
-        char = file:read(1)
+        char = file.read(1)
     end
 
     return table.concat(string)
@@ -69,11 +56,11 @@ local function parse_number(file, char)
     local value = {}
     local pos = 1
 
-    char = char or file:read(1)
+    char = char or file.read(1)
     while char ~= ',' and char ~= '}' and not is_whitespace(char) do
         value[pos] = char
         pos = pos + 1
-        char = file:read(1)
+        char = file.read(1)
     end
 
     return tonumber(table.concat(value)), char
@@ -90,19 +77,19 @@ local function parse_value(file, char)
     elseif char == '-' or char == '.' or char >= '0' and char <= '9' then
         return parse_number(file)
     elseif char == 't' then
-        local rest = file:read(3)
+        local rest = file.read(3)
         if rest ~= 'rue' then
             error('Unexpected character: ' .. char .. rest)
         end
         return true
     elseif char == 'f' then
-        local rest = file:read(4)
+        local rest = file.read(4)
         if rest ~= 'alse' then
             error('Unexpected character: ' .. char .. rest)
         end
         return false
     elseif char == 'n' then
-        local rest = file:read(3)
+        local rest = file.read(3)
         if rest ~= 'ull' then
             error('Unexpected character: ' .. char .. rest)
         end
