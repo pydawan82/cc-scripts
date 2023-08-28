@@ -1,10 +1,11 @@
 require('/lib/term_util')
+peripherals = require('/lib/peripherals')
+pids = require('/lib/pid')
 
-c = peripheral.wrap('back')
-h = peripheral.wrap('top')
+c = peripherals.wrap('back')
+h = peripherals.wrap('top')
 
-pid_package = require('/lib/pid')
-pid = pid_package.new(1e2, 1e1, 0, 1)
+pid = pids.new(1e2, 1e1, 0, 1)
 
 target = 3000
 

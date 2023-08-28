@@ -1,9 +1,10 @@
 require('/lib/term_util')
+peripherals = require('/lib/peripherals')
+pids = require('/lib/pid')
 
-r = peripheral.wrap('back')
+r = peripherals.wrap('back')
 
-pid_package = require('/lib/pid')
-pid = pid_package.new(-10e0, -2e0, 0, 1)
+pid = pids.new(2e1, 5e-1, 0, 1)
 
 target = 0.5
 max_burn = 100
@@ -13,7 +14,7 @@ while true do
 
     if r.getStatus() then
         err = target - f
-        resp = pid:update(err)
+        resp = -pid:update(err)
         resp = resp < 0 and 0 or resp
         resp = resp > max_burn and max_burn or resp
         r.setBurnRate(resp)
@@ -25,10 +26,11 @@ while true do
     printf('Filled: %d%%', f * 100)
     printf('Burn rate: %.2fmB/t', br)
 
-    if f < 0.1 then
+    if r.getStatus() and f < 0.1 then
+        r.setBurnRate(0)
         r.scram()
         print('Too few coolant, scramming reactor!')
-        return -1
     end
+
     sleep(1)
 end
