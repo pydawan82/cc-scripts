@@ -18,3 +18,5 @@ function P.setup(scripts, libs, startup)
     f:write('shell.run(\'scripts/' .. startup .. '\')')
     f:close()
 end
+
+return P
