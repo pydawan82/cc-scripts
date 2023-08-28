@@ -1,4 +1,4 @@
-st = require('../lib/setuptools')
+st = require('/disk/lib/setuptools')
 
 st.setup(
     { 'mk_reactor_controller' },
