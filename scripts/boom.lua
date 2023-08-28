@@ -1,6 +1,6 @@
 print("BOOM! This will delete all files on the computer. [y/n]")
 local response = read()
-if response:subst(1, 1) ~= "y" then
+if response:sub(1, 1) ~= "y" then
     print("Aborting")
     return
 end
