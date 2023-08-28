@@ -14,7 +14,7 @@ function P.setup(scripts, libs, startup)
         fs.copy('disk/scripts/' .. script, 'scripts/' .. script)
     end
 
-    f = fs.open('startup.lua', 'w')
+    f = io.open('startup.lua', 'w')
     f:write('shell.run(\'scripts/' .. startup .. '\')')
     f:close()
 end
