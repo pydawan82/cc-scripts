@@ -41,7 +41,8 @@ end
 
 local INCLUDES = {
     '/lib',
-    '/scripts'
+    '/scripts',
+    '/setup'
 }
 
 local function save_blob(path, entry)
