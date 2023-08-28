@@ -1,4 +1,4 @@
-P = {}
+local P = {}
 cmap = P
 
 local color_scale = {
@@ -18,7 +18,7 @@ function P.colormap(value, min, max)
     value = math.max(value, min)
 
     local index = math.floor((value - min) / (max - min) * (#color_scale - 1))
-    
+
     return color_scale[index + 1]
 end
 

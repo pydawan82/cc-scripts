@@ -1,4 +1,4 @@
-P = {}
+local P = {}
 functools = P
 
 function P.map(func, map)
