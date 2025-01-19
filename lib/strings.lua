@@ -1,6 +1,10 @@
 local P = {}
 strings = P
 
+---
+---@param t [string]
+---@param sep? string
+---@return string
 function P.join(t, sep)
     sep = sep or ''
 
