@@ -1,4 +1,4 @@
-P = {}
+local P = {}
 cmap = P
 
 local color_scale = {

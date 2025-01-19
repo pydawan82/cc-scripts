@@ -1,4 +1,4 @@
-P = {}
+local P = {}
 table_util = P
 
 function P.merge(t1, t2)
