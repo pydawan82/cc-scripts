@@ -1,4 +1,4 @@
-base64 = require('lib/base64')
+base64 = require('lib.base64')
 
 local function dumpChars(str)
     for i = 1, #str do
