@@ -1,5 +1,10 @@
 test_dir = "test"
-test_names = { "strings_test", "argparse_test", "base64_test" }
+test_names = { 
+    "strings_test",
+    "getopt_test",
+    "base64_test",
+    "json_test"
+}
 
 local function title(t)
     line = string.rep('-', t:len())

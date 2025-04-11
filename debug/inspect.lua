@@ -39,7 +39,8 @@ local function repr_table(t, depth, visited)
             repr_table(v, depth + INDENT, visited)
             io.write(',\n')
         else
-            io.write(string.rep(' ', depth + INDENT) .. k .. ' = ' .. repr(v) .. ',\n')
+            io.write(string.rep(' ', depth + INDENT) .. k .. ' = ')
+            repr(v) io.write(',\n')
         end
     end
     
@@ -53,10 +54,10 @@ end
 
 function repr(x)
     if type(x) == 'string' then
-        return print("\"" .. x .. "\"")
+        return io.write("\"" .. x .. "\"")
     elseif type(x) == 'table' then
         return repr_table(x)
     else
-        return print(x)
+        return io.write(x)
     end
 end

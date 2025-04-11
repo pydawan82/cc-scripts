@@ -11,21 +11,24 @@ local function is_whitespace(char)
 end
 
 local function next_non_ws(file)
-    char = file.read(1)
+    char = file:read(1)
     while is_whitespace(char) do
-        char = file.read(1)
+        char = file:read(1)
     end
     return char
 end
 
+---@param file file*
+---@param char string
+---@return string
 local function parse_string(file, char)
     local string = {}
     local pos = 1
 
-    char = file.read(1)
+    char = file:read(1)
     while char ~= '"' do
         if char == '\\' then
-            char = file.read(1)
+            char = file:read(1)
             if char == 'b' then
                 char = '\b'
             elseif char == 'f' then
@@ -46,26 +49,32 @@ local function parse_string(file, char)
         end
         string[pos] = char
         pos = pos + 1
-        char = file.read(1)
+        char = file:read(1)
     end
 
     return table.concat(string)
 end
 
+---@param file file*
+---@param char string
+---@return number
 local function parse_number(file, char)
     local value = {}
     local pos = 1
 
-    char = char or file.read(1)
+    char = char or file:read(1)
     while char ~= ',' and char ~= '}' and not is_whitespace(char) do
         value[pos] = char
         pos = pos + 1
-        char = file.read(1)
+        char = file:read(1)
     end
 
     return tonumber(table.concat(value)), char
 end
 
+---@param file file*
+---@param char string
+---@return any
 local function parse_value(file, char)
     char = char or next_non_ws(file)
     if char == '"' then
@@ -77,19 +86,19 @@ local function parse_value(file, char)
     elseif char == '-' or char == '.' or char >= '0' and char <= '9' then
         return parse_number(file)
     elseif char == 't' then
-        local rest = file.read(3)
+        local rest = file:read(3)
         if rest ~= 'rue' then
             error('Unexpected character: ' .. char .. rest)
         end
         return true
     elseif char == 'f' then
-        local rest = file.read(4)
+        local rest = file:read(4)
         if rest ~= 'alse' then
             error('Unexpected character: ' .. char .. rest)
         end
         return false
     elseif char == 'n' then
-        local rest = file.read(3)
+        local rest = file:read(3)
         if rest ~= 'ull' then
             error('Unexpected character: ' .. char .. rest)
         end
@@ -99,6 +108,9 @@ local function parse_value(file, char)
     end
 end
 
+---@param file file*
+---@param char string
+---@return [any]
 function P.parse_array(file, char)
     local array = {}
     local pos = 1
@@ -128,6 +140,9 @@ function P.parse_array(file, char)
     end
 end
 
+---@param file file*
+---@param char string
+---@return table
 function P.parse_object(file, char)
     local object = {}
 
